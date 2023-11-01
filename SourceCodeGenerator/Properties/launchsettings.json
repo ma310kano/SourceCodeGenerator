@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "SourceCodeGenerator (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "SourceCodeGenerator (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
