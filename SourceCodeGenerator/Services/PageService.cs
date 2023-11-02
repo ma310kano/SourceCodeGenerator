@@ -14,7 +14,7 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<ImmutableClassGenerationViewModel, ImmutableClassGenerationPage>();
+        Configure<ImmutableObjectGenerationViewModel, ImmutableObjectGenerationPage>();
     }
 
     public Type GetPageType(string key)

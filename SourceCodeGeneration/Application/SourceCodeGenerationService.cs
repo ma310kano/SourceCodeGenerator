@@ -11,11 +11,11 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
     #region Methods
 
     /// <summary>
-    /// 不変クラスを生成します。
+    /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
     /// <returns>生成したファイルのパスを返します。</returns>
-    public string GenerateImmutableClass(ImmutableClassGenerationCommand command)
+    public string GenerateImmutableObject(ImmutableObjectGenerationCommand command)
     {
         var properties = command.Properties.Select(property => new PropertyTray(property));
         var firstProperty = properties.First();
@@ -191,13 +191,13 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
     }
 
     /// <summary>
-    /// 不変クラスを生成します。
+    /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
     /// <returns>生成したファイルのパスを返します。</returns>
-    public async Task<string> GenerateImmutableClassAsync(ImmutableClassGenerationCommand command)
+    public async Task<string> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command)
     {
-        return await Task.Run(() => GenerateImmutableClass(command));
+        return await Task.Run(() => GenerateImmutableObject(command));
     }
 
     #endregion

@@ -9,9 +9,9 @@ using WinRT.Interop;
 namespace SourceCodeGenerator.ViewModels;
 
 /// <summary>
-/// 不変クラス生成(ViewModel)
+/// 不変オブジェクト生成(ViewModel)
 /// </summary>
-public partial class ImmutableClassGenerationViewModel : ObservableRecipient
+public partial class ImmutableObjectGenerationViewModel : ObservableRecipient
 {
     #region Fields
 
@@ -56,10 +56,10 @@ public partial class ImmutableClassGenerationViewModel : ObservableRecipient
     #region Constructors
 
     /// <summary>
-    /// 不変クラス生成(ViewModel)を初期化します。
+    /// 不変オブジェクト生成(ViewModel)を初期化します。
     /// </summary>
     /// <param name="sourceCodeGenerationService">ソースコード生成サービス</param>
-    public ImmutableClassGenerationViewModel(ISourceCodeGenerationService sourceCodeGenerationService)
+    public ImmutableObjectGenerationViewModel(ISourceCodeGenerationService sourceCodeGenerationService)
     {
         _sourceCodeGenerationService = sourceCodeGenerationService;
     }
@@ -101,10 +101,10 @@ public partial class ImmutableClassGenerationViewModel : ObservableRecipient
     private bool CanDeleteProperty() => SelectedPropertyItem is not null;
 
     /// <summary>
-    /// 不変クラスを生成します。
+    /// 不変オブジェクトを生成します。
     /// </summary>
     [RelayCommand]
-    private async Task GenerateImmutableClass()
+    private async Task GenerateImmutableObject()
     {
         var savePicker = new FileSavePicker();
         savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -122,14 +122,14 @@ public partial class ImmutableClassGenerationViewModel : ObservableRecipient
             return;
         }
 
-        ImmutableClassGenerationCommand command;
+        ImmutableObjectGenerationCommand command;
         {
             var properties = PropertyItems.Select(item => new PropertyCommand(item.PropertyName, item.PropertyDescription, item.TypeName)).ToList();
 
-            command = new ImmutableClassGenerationCommand(ClassName, ClassDescription, file.Path, NamespaceSequence, properties);
+            command = new ImmutableObjectGenerationCommand(ClassName, ClassDescription, file.Path, NamespaceSequence, properties);
         }
 
-        await _sourceCodeGenerationService.GenerateImmutableClassAsync(command);
+        await _sourceCodeGenerationService.GenerateImmutableObjectAsync(command);
     }
 
     #endregion

@@ -10,18 +10,18 @@ public interface ISourceCodeGenerationService
     #region Methods
 
     /// <summary>
-    /// 不変クラスを生成します。
+    /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
     /// <returns>生成したファイルのパスを返します。</returns>
-    string GenerateImmutableClass(ImmutableClassGenerationCommand command);
+    string GenerateImmutableObject(ImmutableObjectGenerationCommand command);
 
     /// <summary>
-    /// 不変クラスを生成します。
+    /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
     /// <returns>生成したファイルのパスを返します。</returns>
-    Task<string> GenerateImmutableClassAsync(ImmutableClassGenerationCommand command);
+    Task<string> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command);
 
     #endregion
 }

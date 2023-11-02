@@ -61,8 +61,8 @@ public partial class App : Application
             services.AddSingleton<ISourceCodeGenerationService, SourceCodeGenerationService>();
 
             // Views and ViewModels
-            services.AddTransient<ImmutableClassGenerationViewModel>();
-            services.AddTransient<ImmutableClassGenerationPage>();
+            services.AddTransient<ImmutableObjectGenerationViewModel>();
+            services.AddTransient<ImmutableObjectGenerationPage>();
 
             // Configuration
         }).

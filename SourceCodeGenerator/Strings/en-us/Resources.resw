@@ -123,38 +123,38 @@
   <data name="AppDescription" xml:space="preserve">
     <value>SourceCodeGenerator</value>
   </data>
-  <data name="ImmutableClassGeneration_Title.Text" xml:space="preserve">
-    <value>Immutable class</value>
-    <comment>Page title for MainPage</comment>
+  <data name="ImmutableObjectGeneration_Title.Text" xml:space="preserve">
+    <value>Immutable object</value>
+    <comment>Page title for ImmutableObjectGenerationPage</comment>
   </data>
-  <data name="ImmutableClassGeneration_ClassDescription.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_ClassDescription.Header" xml:space="preserve">
     <value>Class description</value>
   </data>
-  <data name="ImmutableClassGeneration_ClassName.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_ClassName.Header" xml:space="preserve">
     <value>Class name</value>
   </data>
-  <data name="ImmutableClassGeneration_NamespaceSequence.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_NamespaceSequence.Header" xml:space="preserve">
     <value>Namespace</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Menu_AddProperty.Content" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Menu_AddProperty.Content" xml:space="preserve">
     <value>Add property</value>
   </data>
-  <data name="ImmutableClassGeneration_GenerateImmutableClass.Content" xml:space="preserve">
-    <value>Generate immutable class</value>
+  <data name="ImmutableObjectGeneration_GenerateImmutableObject.Content" xml:space="preserve">
+    <value>Generate immutable object</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Columns_PropertyDescription.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Columns_PropertyDescription.Header" xml:space="preserve">
     <value>Property description</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Columns_PropertyName.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Columns_PropertyName.Header" xml:space="preserve">
     <value>Property name</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Columns_TypeName.Header" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Columns_TypeName.Header" xml:space="preserve">
     <value>Type name</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Menu_DeleteProperty.Content" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Menu_DeleteProperty.Content" xml:space="preserve">
     <value>Delete property</value>
   </data>
-  <data name="ImmutableClassGeneration_PropertyItems_Title.Text" xml:space="preserve">
+  <data name="ImmutableObjectGeneration_PropertyItems_Title.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
 </root>

@@ -1,21 +1,21 @@
 ﻿namespace SourceCodeGeneration.Application.Command;
 
 /// <summary>
-/// 不変クラスの生成コマンド
+/// 不変オブジェクトの生成コマンド
 /// </summary>
-public class ImmutableClassGenerationCommand
+public class ImmutableObjectGenerationCommand
 {
     #region Constructors
 
     /// <summary>
-    /// 不変クラスの生成コマンドを初期化します。
+    /// 不変オブジェクトの生成コマンドを初期化します。
     /// </summary>
     /// <param name="className">クラス名</param>
     /// <param name="classDescription">クラスの説明</param>
     /// <param name="filePath">ファイルパス</param>
     /// <param name="namespaceSequence">名前空間シーケンス</param>
     /// <param name="properties">プロパティのコレクション</param>
-    public ImmutableClassGenerationCommand(string className, string classDescription, string filePath, string namespaceSequence, IReadOnlyList<PropertyCommand> properties)
+    public ImmutableObjectGenerationCommand(string className, string classDescription, string filePath, string namespaceSequence, IReadOnlyList<PropertyCommand> properties)
     {
         ClassName = className;
         ClassDescription = classDescription;
@@ -76,7 +76,7 @@ public class ImmutableClassGenerationCommand
     /// 現在のオブジェクトを表す文字列を返します。
     /// </summary>
     /// <returns>現在のオブジェクトを表す文字列。</returns>
-    public override string ToString() => $"{nameof(ImmutableClassGenerationCommand)} {{ {nameof(ClassName)} = {ClassName}, {nameof(ClassDescription)} = {ClassDescription}, {nameof(FilePath)} = {FilePath}, {nameof(NamespaceSequence)} = {NamespaceSequence}, {nameof(Properties)} = {Properties.Count} }}";
+    public override string ToString() => $"{nameof(ImmutableObjectGenerationCommand)} {{ {nameof(ClassName)} = {ClassName}, {nameof(ClassDescription)} = {ClassDescription}, {nameof(FilePath)} = {FilePath}, {nameof(NamespaceSequence)} = {NamespaceSequence}, {nameof(Properties)} = {Properties.Count} }}";
 
     #endregion
 }
