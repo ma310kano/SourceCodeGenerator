@@ -123,10 +123,8 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
                 writer.Write("    public ");
                 writer.Write(property.TypeName);
                 writer.Write(" ");
-                writer.WriteLine(property.PropertyName);
-                writer.WriteLine("    {");
-                writer.WriteLine("        get;");
-                writer.WriteLine("    }");
+                writer.Write(property.PropertyName);
+                writer.WriteLine(" { get; }");
             };
 
             writeProperty(writer, firstProperty);
