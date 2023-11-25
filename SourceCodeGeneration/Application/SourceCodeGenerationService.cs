@@ -154,7 +154,9 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
             writer.WriteLine("    /// <returns>現在のオブジェクトを表す文字列。</returns>");
 
             // Begin: Definition
-            writer.Write("    public override string ToString() => $\"{nameof(");
+            writer.WriteLine("    public override string ToString()");
+            writer.WriteLine("    {");
+            writer.Write("        return $\"{nameof(");
             writer.Write(command.ClassName);
             writer.Write(")} {{ ");
 
@@ -176,6 +178,7 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
 
             // End: Definition
             writer.WriteLine(" }}\";");
+            writer.WriteLine("    }");
 
             // End: Region derective
             writer.WriteLine();
