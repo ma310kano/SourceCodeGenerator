@@ -1,0 +1,179 @@
+﻿@page "/immutable-object"
+
+@using SourceCodeGeneration.Application
+@using SourceCodeGeneration.Application.Command
+@inject ISourceCodeGenerationService SourceCodeGenerationService
+
+<h1>Immutable object</h1>
+
+<EditForm Model="_model" OnValidSubmit="SubmitAsync">
+	<div>
+		<label for="class-name">Class name</label>
+		<InputText id="class-name" @bind-Value="_model.ClassName" />
+	</div>
+	<div>
+		<label for="class-description">Class description</label>
+		<InputText id="class-description" @bind-Value="_model.ClassDescription" />
+	</div>
+	<div>
+		<label for="namespace-sequence">Namespace sequence</label>
+		<InputText id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div>
+		<button type="button" class="btn btn-primary" @onclick="() => _model.Properties.Add(new PropertyModel())">Add property</button>
+		<table>
+			<thead>
+				<tr>
+					<th>Property name</th>
+					<th>Property description</th>
+					<th>Type name</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (PropertyModel property in _model.Properties)
+				{
+					<tr>
+						<td><InputText @bind-Value="property.PropertyName" /></td>
+						<td><InputText @bind-Value="property.PropertyDescription" /></td>
+						<td><InputText @bind-Value="property.TypeName" /></td>
+						<td><button type="button" class="btn btn-danger" @onclick="() => _model.Properties.Remove(property)">Remove property</button></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="right">
+		<button type="submit" class="btn btn-primary">Save</button>
+	</div>
+</EditForm>
+
+@code {
+	#region Fields
+
+	/// <summary>
+	/// モデル
+	/// </summary>
+	private readonly ClassModel _model = new();
+
+	#endregion
+
+	#region Methods
+
+	/// <summary>
+	/// 送信します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task SubmitAsync()
+	{
+		ImmutableObjectGenerationCommand command = _model.CreateCommand();
+
+		using Stream stream = await SourceCodeGenerationService.GenerateImmutableObjectAsync(command);
+
+		string fileName = command.ClassName + ".cs";
+
+		await FileSaver.Default.SaveAsync(fileName, stream);
+	}
+
+	#endregion
+
+	#region Nested types
+
+	/// <summary>
+	/// クラスモデル
+	/// </summary>
+	private class ClassModel
+	{
+		#region Properties
+
+		/// <summary>
+		/// クラス名を設定または取得します。
+		/// </summary>
+		public string ClassName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// クラスの説明を設定または取得します。
+		/// </summary>
+		public string ClassDescription { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 名前空間シーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		/// <summary>
+		/// プロパティのコレクションを取得します。
+		/// </summary>
+		public List<PropertyModel> Properties { get; } = new() { new PropertyModel() };
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを作成します。
+		/// </summary>
+		/// <returns>作成したコマンドを返します。</returns>
+		public ImmutableObjectGenerationCommand CreateCommand()
+		{
+			ImmutableObjectGenerationCommand command;
+			{
+				List<PropertyCommand> properties = [];
+				foreach (PropertyModel model in Properties)
+				{
+					PropertyCommand property = new(model.PropertyName, model.PropertyDescription, model.TypeName);
+
+					properties.Add(property);
+				}
+
+				command = new(ClassName, ClassDescription, NamespaceSequence, properties);
+			}
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	/// <summary>
+	/// プロパティモデル
+	/// </summary>
+	private class PropertyModel
+	{
+		#region Properties
+
+		/// <summary>
+		/// プロパティ名を設定または取得します。
+		/// </summary>
+		public string PropertyName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// プロパティの説明を設定または取得します。
+		/// </summary>
+		public string PropertyDescription { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 型名を設定または取得します。
+		/// </summary>
+		public string TypeName { get; set; } = string.Empty;
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを作成します。
+		/// </summary>
+		/// <returns>作成したコマンドを返します。</returns>
+		private PropertyCommand CreateCommand()
+		{
+			PropertyCommand command = new(PropertyName, PropertyDescription, TypeName);
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	#endregion
+}

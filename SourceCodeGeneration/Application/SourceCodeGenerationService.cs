@@ -14,14 +14,16 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
     /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
-    /// <returns>生成したファイルのパスを返します。</returns>
-    public string GenerateImmutableObject(ImmutableObjectGenerationCommand command)
+    /// <returns>生成したストリームを返します。</returns>
+    public Stream GenerateImmutableObject(ImmutableObjectGenerationCommand command)
     {
         var properties = command.Properties.Select(property => new PropertyTray(property));
         var firstProperty = properties.First();
         var secondAndSubsequentProperties = properties.Skip(1);
 
-        using var writer = new StreamWriter(command.FilePath, append: false, Encoding.UTF8);
+        var stream = new MemoryStream();
+
+        var writer = new StreamWriter(stream, Encoding.UTF8);
 
         // Namespace
         writer.Write("namespace ");
@@ -188,15 +190,17 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
         // Class - End: Definition
         writer.WriteLine("}");
 
-        return command.FilePath;
+        writer.Flush();
+
+        return stream;
     }
 
     /// <summary>
     /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
-    /// <returns>生成したファイルのパスを返します。</returns>
-    public async Task<string> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command)
+    /// <returns>生成したストリームを返します。</returns>
+    public async Task<Stream> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command)
     {
         return await Task.Run(() => GenerateImmutableObject(command));
     }

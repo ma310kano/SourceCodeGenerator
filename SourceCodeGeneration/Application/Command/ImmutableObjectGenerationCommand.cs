@@ -12,14 +12,12 @@ public class ImmutableObjectGenerationCommand
     /// </summary>
     /// <param name="className">クラス名</param>
     /// <param name="classDescription">クラスの説明</param>
-    /// <param name="filePath">ファイルパス</param>
     /// <param name="namespaceSequence">名前空間シーケンス</param>
     /// <param name="properties">プロパティのコレクション</param>
-    public ImmutableObjectGenerationCommand(string className, string classDescription, string filePath, string namespaceSequence, IReadOnlyList<PropertyCommand> properties)
+    public ImmutableObjectGenerationCommand(string className, string classDescription, string namespaceSequence, IReadOnlyList<PropertyCommand> properties)
     {
         ClassName = className;
         ClassDescription = classDescription;
-        FilePath = filePath;
         NamespaceSequence = namespaceSequence;
         Properties = properties;
     }
@@ -39,11 +37,6 @@ public class ImmutableObjectGenerationCommand
     public string ClassDescription { get; }
 
     /// <summary>
-    /// ファイルパスを取得します。
-    /// </summary>
-    public string FilePath { get; }
-
-    /// <summary>
     /// 名前空間シーケンスを取得します。
     /// </summary>
     public string NamespaceSequence { get; }
@@ -61,7 +54,7 @@ public class ImmutableObjectGenerationCommand
     /// 現在のオブジェクトを表す文字列を返します。
     /// </summary>
     /// <returns>現在のオブジェクトを表す文字列。</returns>
-    public override string ToString() => $"{nameof(ImmutableObjectGenerationCommand)} {{ {nameof(ClassName)} = {ClassName}, {nameof(ClassDescription)} = {ClassDescription}, {nameof(FilePath)} = {FilePath}, {nameof(NamespaceSequence)} = {NamespaceSequence}, {nameof(Properties)} = {Properties.Count} }}";
+    public override string ToString() => $"{nameof(ImmutableObjectGenerationCommand)} {{ {nameof(ClassName)} = {ClassName}, {nameof(ClassDescription)} = {ClassDescription}, {nameof(NamespaceSequence)} = {NamespaceSequence}, {nameof(Properties)} = {Properties.Count} }}";
 
     #endregion
 }

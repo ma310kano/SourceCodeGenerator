@@ -13,15 +13,15 @@ public interface ISourceCodeGenerationService
     /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
-    /// <returns>生成したファイルのパスを返します。</returns>
-    string GenerateImmutableObject(ImmutableObjectGenerationCommand command);
+    /// <returns>生成したストリームを返します。</returns>
+    Stream GenerateImmutableObject(ImmutableObjectGenerationCommand command);
 
     /// <summary>
     /// 不変オブジェクトを生成します。
     /// </summary>
     /// <param name="command">コマンド</param>
-    /// <returns>生成したファイルのパスを返します。</returns>
-    Task<string> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command);
+    /// <returns>生成したストリームを返します。</returns>
+    Task<Stream> GenerateImmutableObjectAsync(ImmutableObjectGenerationCommand command);
 
     #endregion
 }
