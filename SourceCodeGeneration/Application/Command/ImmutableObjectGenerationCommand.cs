@@ -31,42 +31,27 @@ public class ImmutableObjectGenerationCommand
     /// <summary>
     /// クラス名を取得します。
     /// </summary>
-    public string ClassName
-    {
-        get;
-    }
+    public string ClassName { get; }
 
     /// <summary>
     /// クラスの説明を取得します。
     /// </summary>
-    public string ClassDescription
-    {
-        get;
-    }
+    public string ClassDescription { get; }
 
     /// <summary>
     /// ファイルパスを取得します。
     /// </summary>
-    public string FilePath
-    {
-        get;
-    }
+    public string FilePath { get; }
 
     /// <summary>
     /// 名前空間シーケンスを取得します。
     /// </summary>
-    public string NamespaceSequence
-    {
-        get;
-    }
+    public string NamespaceSequence { get; }
 
     /// <summary>
     /// プロパティのコレクションを取得します。
     /// </summary>
-    public IReadOnlyList<PropertyCommand> Properties
-    {
-        get;
-    }
+    public IReadOnlyList<PropertyCommand> Properties { get; }
 
     #endregion
 

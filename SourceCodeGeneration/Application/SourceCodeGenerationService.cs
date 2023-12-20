@@ -231,34 +231,22 @@ public class SourceCodeGenerationService : ISourceCodeGenerationService
         /// <summary>
         /// プロパティ名を取得します。
         /// </summary>
-        public string PropertyName
-        {
-            get;
-        }
+        public string PropertyName { get; }
 
         /// <summary>
         /// プロパティの説明を取得します。
         /// </summary>
-        public string PropertyDescription
-        {
-            get;
-        }
+        public string PropertyDescription { get; }
 
         /// <summary>
         /// 型名を取得します。
         /// </summary>
-        public string TypeName
-        {
-            get;
-        }
+        public string TypeName { get; }
 
         /// <summary>
         /// パラメーター名を取得します。
         /// </summary>
-        public string ParameterName
-        {
-            get;
-        }
+        public string ParameterName { get; }
 
         #endregion
 

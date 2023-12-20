@@ -27,26 +27,17 @@ public class PropertyCommand
     /// <summary>
     /// プロパティ名を取得します。
     /// </summary>
-    public string PropertyName
-    {
-        get;
-    }
+    public string PropertyName { get; }
 
     /// <summary>
     /// プロパティの説明を取得します。
     /// </summary>
-    public string PropertyDescription
-    {
-        get;
-    }
+    public string PropertyDescription { get; }
 
     /// <summary>
     /// 型名を取得します。
     /// </summary>
-    public string TypeName
-    {
-        get;
-    }
+    public string TypeName { get; }
 
     #endregion
 
