@@ -1,0 +1,108 @@
+﻿@page "/value-object-maximum-length"
+
+@using SourceCodeGeneration.Application
+@using SourceCodeGeneration.Application.Command
+@inject IValueObjectGenerationService ValueObjectGenerationService
+
+<h1>Value object</h1>
+
+<EditForm Model="_model" OnValidSubmit="SubmitAsync">
+	<div>
+		<label for="class-name">Class name</label>
+		<InputText id="class-name" @bind-Value="_model.ClassName" />
+	</div>
+	<div>
+		<label for="class-description">Class description</label>
+		<InputText id="class-description" @bind-Value="_model.ClassDescription" />
+	</div>
+	<div>
+		<label for="namespace-sequence">Namespace sequence</label>
+		<InputText id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div>
+		<label for="maximum-length">Maximum length</label>
+		<InputNumber id="maximum-length" @bind-Value="_model.MaximumLength" />
+	</div>
+	<div class="right">
+		<button type="submit" class="btn btn-primary">Save</button>
+	</div>
+</EditForm>
+
+@code {
+	#region Fields
+
+	/// <summary>
+	/// モデル
+	/// </summary>
+	private readonly ClassModel _model = new();
+
+	#endregion
+
+	#region Methods
+
+	/// <summary>
+	/// 送信します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task SubmitAsync()
+	{
+		ValueObjectMaximumLengthGenerationCommand command = _model.CreateCommand();
+
+		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+
+		string fileName = command.ClassName + ".cs";
+
+		await FileSaver.Default.SaveAsync(fileName, stream);
+	}
+
+	#endregion
+
+	#region Nested types
+
+	/// <summary>
+	/// クラスモデル
+	/// </summary>
+	private class ClassModel
+	{
+		#region Properties
+
+		/// <summary>
+		/// クラス名を設定または取得します。
+		/// </summary>
+		public string ClassName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// クラスの説明を設定または取得します。
+		/// </summary>
+		public string ClassDescription { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 名前空間シーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 最大長を取得します。
+		/// </summary>
+		public int MaximumLength { get; set; } = 10;
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを作成します。
+		/// </summary>
+		/// <returns>作成したコマンドを返します。</returns>
+		public ValueObjectMaximumLengthGenerationCommand CreateCommand()
+		{
+			ValueObjectMaximumLengthGenerationCommand command = new(ClassName, ClassDescription, NamespaceSequence, MaximumLength);
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	#endregion
+}
