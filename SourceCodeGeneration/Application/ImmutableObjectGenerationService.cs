@@ -4,9 +4,9 @@ using SourceCodeGeneration.Application.Command;
 namespace SourceCodeGeneration.Application;
 
 /// <summary>
-/// ソースコード生成サービス
+/// 不変オブジェクト生成サービス
 /// </summary>
-public class SourceCodeGenerationService : ISourceCodeGenerationService
+public class ImmutableObjectGenerationService : IImmutableObjectGenerationService
 {
     #region Methods
 

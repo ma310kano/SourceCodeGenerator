@@ -3,9 +3,9 @@
 namespace SourceCodeGeneration.Application;
 
 /// <summary>
-/// ソースコード生成サービス
+/// 不変オブジェクト生成サービス
 /// </summary>
-public interface ISourceCodeGenerationService
+public interface IImmutableObjectGenerationService
 {
     #region Methods
 

@@ -2,7 +2,7 @@
 
 @using SourceCodeGeneration.Application
 @using SourceCodeGeneration.Application.Command
-@inject ISourceCodeGenerationService SourceCodeGenerationService
+@inject IImmutableObjectGenerationService ImmutableObjectGenerationService
 
 <h1>Immutable object</h1>
 
@@ -68,7 +68,7 @@
 	{
 		ImmutableObjectGenerationCommand command = _model.CreateCommand();
 
-		using Stream stream = await SourceCodeGenerationService.GenerateImmutableObjectAsync(command);
+		using Stream stream = await ImmutableObjectGenerationService.GenerateImmutableObjectAsync(command);
 
 		string fileName = command.ClassName + ".cs";
 
