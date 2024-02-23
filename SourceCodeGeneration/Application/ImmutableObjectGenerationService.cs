@@ -149,41 +149,43 @@ public class ImmutableObjectGenerationService : IImmutableObjectGenerationServic
             writer.WriteLine("    #region Methods");
             writer.WriteLine();
 
-            // Documentation comment
-            writer.WriteLine("    /// <summary>");
-            writer.WriteLine("    /// 現在のオブジェクトを表す文字列を返します。");
-            writer.WriteLine("    /// </summary>");
-            writer.WriteLine("    /// <returns>現在のオブジェクトを表す文字列。</returns>");
+			// Documentation comment
+			writer.WriteLine("    /// <summary>");
+			writer.WriteLine("    /// 現在のオブジェクトを表す文字列を返します。");
+			writer.WriteLine("    /// </summary>");
+			writer.WriteLine("    /// <returns>現在のオブジェクトを表す文字列。</returns>");
 
-            // Begin: Definition
-            writer.WriteLine("    public override string ToString()");
-            writer.WriteLine("    {");
-            writer.Write("        return $\"{nameof(");
-            writer.Write(command.ClassName);
-            writer.Write(")} {{ ");
+			// Begin: Definition
+			writer.WriteLine("    public override string ToString()");
+			writer.WriteLine("    {");
+			writer.Write("        string str = $\"{nameof(");
+			writer.Write(command.ClassName);
+			writer.Write(")} {{ ");
 
-            var writeProperty = (StreamWriter writer, PropertyTray property) =>
-            {
-                writer.Write("{nameof(");
-                writer.Write(property.PropertyName);
-                writer.Write(")} = {");
-                writer.Write(property.PropertyName);
-                writer.Write("}");
-            };
+			static void writeProperty(StreamWriter writer, PropertyTray property)
+			{
+				writer.Write("{nameof(");
+				writer.Write(property.PropertyName);
+				writer.Write(")} = {");
+				writer.Write(property.PropertyName);
+				writer.Write("}");
+			}
 
-            writeProperty(writer, firstProperty);
-            foreach (var property in secondAndSubsequentProperties)
-            {
-                writer.Write(", ");
-                writeProperty(writer, property);
-            }
+			writeProperty(writer, firstProperty);
+			foreach (var property in secondAndSubsequentProperties)
+			{
+				writer.Write(", ");
+				writeProperty(writer, property);
+			}
 
-            // End: Definition
-            writer.WriteLine(" }}\";");
-            writer.WriteLine("    }");
+			// End: Definition
+			writer.WriteLine(" }}\";");
+			writer.WriteLine();
+			writer.WriteLine("        return str;");
+			writer.WriteLine("    }");
 
-            // End: Region derective
-            writer.WriteLine();
+			// End: Region derective
+			writer.WriteLine();
             writer.WriteLine("    #endregion");
         }
 
