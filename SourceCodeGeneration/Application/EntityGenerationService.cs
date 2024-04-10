@@ -38,76 +38,38 @@ public class EntityGenerationService : IEntityGenerationService
 		writer.WriteLine(command.ClassDescription);
 		writer.WriteLine("/// </summary>");
 
+		foreach (var property in properties)
+		{
+			writer.Write("/// <param name=\"");
+			writer.Write(property.ParameterName);
+			writer.Write("\">");
+			writer.Write(property.PropertyDescription);
+			writer.WriteLine("</param>");
+		}
+
 		// Class - Begin: Definition
 		writer.Write("public class ");
 		writer.Write(command.ClassName);
-		writer.Write(" : IEquatable<");
+		writer.Write("(");
+
+		static void writeParameter(StreamWriter writer, PropertyTray property)
+		{
+			writer.Write(property.TypeName);
+			writer.Write(" ");
+			writer.Write(property.ParameterName);
+		}
+
+		writeParameter(writer, firstProperty);
+		foreach (var property in secondAndSubsequentProperties)
+		{
+			writer.Write(", ");
+			writeParameter(writer, property);
+		}
+
+		writer.Write(") : IEquatable<");
 		writer.Write(command.ClassName);
 		writer.WriteLine(">");
 		writer.WriteLine("{");
-
-		// Constructor
-		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Constructors");
-			writer.WriteLine();
-
-			// Documentation comment
-			writer.WriteLine("    /// <summary>");
-			writer.Write("    /// ");
-			writer.Write(command.ClassDescription);
-			writer.WriteLine("を初期化します。");
-			writer.WriteLine("    /// </summary>");
-
-			foreach (var property in properties)
-			{
-				writer.Write("    /// <param name=\"");
-				writer.Write(property.ParameterName);
-				writer.Write("\">");
-				writer.Write(property.PropertyDescription);
-				writer.WriteLine("</param>");
-			}
-
-			// Begin: Definition
-			writer.Write("    public ");
-			writer.Write(command.ClassName);
-			writer.Write("(");
-
-			static void writeParameter(StreamWriter writer, PropertyTray property)
-			{
-				writer.Write(property.TypeName);
-				writer.Write(" ");
-				writer.Write(property.ParameterName);
-			}
-
-			writeParameter(writer, firstProperty);
-			foreach (var property in secondAndSubsequentProperties)
-			{
-				writer.Write(", ");
-				writeParameter(writer, property);
-			}
-
-			writer.WriteLine(")");
-			writer.WriteLine("    {");
-
-			foreach (var property in properties)
-			{
-				writer.Write("        ");
-				writer.Write(property.PropertyName);
-				writer.Write(" = ");
-				writer.Write(property.ParameterName);
-				writer.WriteLine(";");
-			}
-
-			// End: Definition
-			writer.WriteLine("    }");
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
-		}
-
-		writer.WriteLine();
 
 		// Property
 		{
@@ -129,7 +91,9 @@ public class EntityGenerationService : IEntityGenerationService
 				writer.Write(property.TypeName);
 				writer.Write(" ");
 				writer.Write(property.PropertyName);
-				writer.WriteLine(" { get; }");
+				writer.Write(" { get; } = ");
+				writer.Write(property.ParameterName);
+				writer.WriteLine(";");
 			}
 
 			writeProperty(writer, firstProperty);
