@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceCodeGeneration", "SourceCodeGeneration\SourceCodeGeneration.csproj", "{3C30BC96-2F37-4FE0-B435-7B73A8EFADCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceCodeGenerator", "SourceCodeGenerator\SourceCodeGenerator.csproj", "{F6107B0F-5595-4D12-8B9F-9DAA375EFC7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceCodeGenerator", "SourceCodeGenerator\SourceCodeGenerator.csproj", "{F6107B0F-5595-4D12-8B9F-9DAA375EFC7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

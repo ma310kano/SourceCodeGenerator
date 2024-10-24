@@ -21,7 +21,21 @@ public interface IValueObjectGenerationService
 	/// </summary>
 	/// <param name="command">コマンド</param>
 	/// <returns>生成したストリームを返します。</returns>
+	Stream GenerateValueObject(ValueObjectNumberGenerationCommand command);
+
+	/// <summary>
+	/// 値オブジェクトを生成します。
+	/// </summary>
+	/// <param name="command">コマンド</param>
+	/// <returns>生成したストリームを返します。</returns>
 	Task<Stream> GenerateValueObjectAsync(ValueObjectMaximumLengthGenerationCommand command);
+
+	/// <summary>
+	/// 値オブジェクトを生成します。
+	/// </summary>
+	/// <param name="command">コマンド</param>
+	/// <returns>生成したストリームを返します。</returns>
+	Task<Stream> GenerateValueObjectAsync(ValueObjectNumberGenerationCommand command);
 
 	#endregion
 }
