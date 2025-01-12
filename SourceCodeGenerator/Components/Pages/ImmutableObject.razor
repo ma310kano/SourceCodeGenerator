@@ -7,19 +7,19 @@
 <h1>Immutable object</h1>
 
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
-	<div>
-		<label for="class-name">Class name</label>
-		<InputText id="class-name" @bind-Value="_model.ClassName" />
+	<div class="mb-3">
+		<label class="form-label" for="class-name">Class name</label>
+		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
 	</div>
-	<div>
-		<label for="class-description">Class description</label>
-		<InputText id="class-description" @bind-Value="_model.ClassDescription" />
+	<div class="mb-3">
+		<label class="form-label" for="class-description">Class description</label>
+		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
 	</div>
-	<div>
-		<label for="namespace-sequence">Namespace sequence</label>
-		<InputText id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
 	</div>
-	<div>
+	<div class="mb-3">
 		<button type="button" class="btn btn-primary" @onclick="() => _model.Properties.Add(new PropertyModel())">Add property</button>
 		<table class="table">
 			<thead>
@@ -34,9 +34,9 @@
 				@foreach (PropertyModel property in _model.Properties)
 				{
 					<tr>
-						<td><InputText @bind-Value="property.PropertyName" /></td>
-						<td><InputText @bind-Value="property.PropertyDescription" /></td>
-						<td><InputText @bind-Value="property.TypeName" /></td>
+						<td><InputText class="form-control" @bind-Value="property.PropertyName" /></td>
+						<td><InputText class="form-control" @bind-Value="property.PropertyDescription" /></td>
+						<td><InputText class="form-control" @bind-Value="property.TypeName" /></td>
 						<td><button type="button" class="btn btn-danger" @onclick="() => _model.Properties.Remove(property)">Remove property</button></td>
 					</tr>
 				}

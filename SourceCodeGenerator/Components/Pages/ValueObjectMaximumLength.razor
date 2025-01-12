@@ -7,21 +7,21 @@
 <h1>Value object</h1>
 
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
-	<div>
-		<label for="class-name">Class name</label>
-		<InputText id="class-name" @bind-Value="_model.ClassName" />
+	<div class="mb-3">
+		<label class="form-label" for="class-name">Class name</label>
+		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
 	</div>
-	<div>
-		<label for="class-description">Class description</label>
-		<InputText id="class-description" @bind-Value="_model.ClassDescription" />
+	<div class="mb-3">
+		<label class="form-label" for="class-description">Class description</label>
+		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
 	</div>
-	<div>
-		<label for="namespace-sequence">Namespace sequence</label>
-		<InputText id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
 	</div>
-	<div>
-		<label for="maximum-length">Maximum length</label>
-		<InputNumber id="maximum-length" @bind-Value="_model.MaximumLength" />
+	<div class="mb-3">
+		<label class="form-label" for="maximum-length">Maximum length</label>
+		<InputNumber class="form-control" id="maximum-length" @bind-Value="_model.MaximumLength" />
 	</div>
 	<div class="right">
 		<button type="submit" class="btn btn-primary">Save</button>
