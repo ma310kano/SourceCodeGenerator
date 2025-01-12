@@ -1,12 +1,11 @@
-﻿@page "/value-object-maximum-length"
-
+﻿@page "/value-object/number"
 @using SourceCodeGeneration.Application
 @using SourceCodeGeneration.Application.Command
 @inject IValueObjectGenerationService ValueObjectGenerationService
 
-<h1>Value object</h1>
+<h1>Value object (number)</h1>
 
-<EditForm Model="_model" OnValidSubmit="SubmitAsync">
+<EditForm Model="_model" OnValidSubmit="SaveFileAsync">
 	<div class="mb-3">
 		<label class="form-label" for="class-name">Class name</label>
 		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
@@ -20,8 +19,14 @@
 		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
 	</div>
 	<div class="mb-3">
-		<label class="form-label" for="maximum-length">Maximum length</label>
-		<InputNumber class="form-control" id="maximum-length" @bind-Value="_model.MaximumLength" />
+		<InputCheckbox class="form-check-input" id="minimum-number" @bind-Value="_model.HasMinimumNumber" />
+		<label class="form-label" for="minimum-number">Minumum number</label>
+		<InputNumber class="form-control" disabled="@(_model.HasMinimumNumber ? null : "disabled")" @bind-Value="_model.MinimumNumber" />
+	</div>
+	<div class="mb-3">
+		<InputCheckbox class="form-check-input" id="maximum-number" @bind-Value="_model.HasMaximumNumber" />
+		<label class="form-label" for="maximum-number">Maximum number</label>
+		<InputNumber class="form-control" disabled="@(_model.HasMaximumNumber ? null : "disabled")" @bind-Value="_model.MaximumNumber" />
 	</div>
 	<div class="right">
 		<button type="submit" class="btn btn-primary">Save</button>
@@ -34,19 +39,19 @@
 	/// <summary>
 	/// モデル
 	/// </summary>
-	private readonly ClassModel _model = new();
+	private readonly Model _model = new();
 
 	#endregion
 
 	#region Methods
 
 	/// <summary>
-	/// 送信します。
+	/// ファイルを保存します。
 	/// </summary>
 	/// <returns>非同期操作を返します。</returns>
-	private async Task SubmitAsync()
+	private async Task SaveFileAsync()
 	{
-		ValueObjectMaximumLengthGenerationCommand command = _model.CreateCommand();
+		ValueObjectNumberGenerationCommand command = _model.CreateCommand();
 
 		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
 
@@ -60,9 +65,9 @@
 	#region Nested types
 
 	/// <summary>
-	/// クラスモデル
+	/// モデル
 	/// </summary>
-	private class ClassModel
+	private class Model
 	{
 		#region Properties
 
@@ -82,9 +87,24 @@
 		public string NamespaceSequence { get; set; } = string.Empty;
 
 		/// <summary>
-		/// 最大長を取得します。
+		/// 最小数を持つかどうかを設定または取得します。
 		/// </summary>
-		public int MaximumLength { get; set; } = 10;
+		public bool HasMinimumNumber { get; set; } = true;
+
+		/// <summary>
+		/// 最小数を設定または取得します。
+		/// </summary>
+		public int MinimumNumber { get; set; } = 0;
+
+		/// <summary>
+		/// 最大数を持つかどうかを設定または取得します。
+		/// </summary>
+		public bool HasMaximumNumber { get; set; } = true;
+
+		/// <summary>
+		/// 最大数を設定または取得します。
+		/// </summary>
+		public int MaximumNumber { get; set; } = 999_999_999;
 
 		#endregion
 
@@ -94,9 +114,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		public ValueObjectMaximumLengthGenerationCommand CreateCommand()
+		public ValueObjectNumberGenerationCommand CreateCommand()
 		{
-			ValueObjectMaximumLengthGenerationCommand command = new(ClassName, ClassDescription, NamespaceSequence, MaximumLength);
+			ValueObjectNumberGenerationCommand command = new(ClassName, ClassDescription, NamespaceSequence, HasMinimumNumber, MinimumNumber, HasMaximumNumber, MaximumNumber);
 
 			return command;
 		}
