@@ -1,0 +1,100 @@
+﻿@page "/value-object/uuid"
+
+@using SourceCodeGeneration.Application
+@using SourceCodeGeneration.Application.Command
+
+@inject IValueObjectGenerationService ValueObjectGenerationService
+
+<h1>Value object (UUID)</h1>
+
+<EditForm Model="_model" OnValidSubmit="SaveFileAsync">
+	<div class="mb-3">
+		<label class="form-label" for="class-name">Class name</label>
+		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="class-description">Class description</label>
+		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div class="right">
+		<button type="submit" class="btn btn-primary">Save</button>
+	</div>
+</EditForm>
+
+@code {
+	#region Fields
+
+	/// <summary>
+	/// モデル
+	/// </summary>
+	private readonly Model _model = new();
+
+	#endregion
+
+	#region Methods
+
+	/// <summary>
+	/// ファイルを保存します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task SaveFileAsync()
+	{
+		ValueObjectUuidGenerationCommand command = _model.CreateCommand();
+
+		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+
+		string fileName = command.ClassName + ".cs";
+
+		await FileSaver.Default.SaveAsync(fileName, stream);
+	}
+
+	#endregion
+
+	#region Nested types
+
+	/// <summary>
+	/// モデル
+	/// </summary>
+	private class Model
+	{
+		#region Properties
+
+		/// <summary>
+		/// クラス名を設定または取得します。
+		/// </summary>
+		public string ClassName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// クラスの説明を設定または取得します。
+		/// </summary>
+		public string ClassDescription { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 名前空間シーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを作成します。
+		/// </summary>
+		/// <returns>作成したコマンドを返します。</returns>
+		public ValueObjectUuidGenerationCommand CreateCommand()
+		{
+			ValueObjectUuidGenerationCommand command = new(ClassName, ClassDescription, NamespaceSequence);
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	#endregion
+}
