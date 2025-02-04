@@ -516,7 +516,7 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 				// Contents
 				writer.WriteLine("        bool result;");
 				writer.WriteLine("        {");
-				writer.WriteLine("            const string pattern = \"[0-9a-f]{8}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{12}\";");
+				writer.WriteLine("            const string pattern = \"^[0-9a-f]{8}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{12}$\";");
 				writer.WriteLine();
 				writer.WriteLine("            result = Regex.IsMatch(value, pattern);");
 				writer.WriteLine("        }");
