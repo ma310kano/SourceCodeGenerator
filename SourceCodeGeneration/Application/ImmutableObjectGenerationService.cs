@@ -17,8 +17,8 @@ public class ImmutableObjectGenerationService : IImmutableObjectGenerationServic
     /// <returns>生成したストリームを返します。</returns>
     public Stream GenerateImmutableObject(ImmutableObjectGenerationCommand command)
     {
-        PropertyCommand firstProperty = command.Properties[0];
-        IReadOnlyCollection<PropertyCommand> secondAndSubsequentProperties = command.Properties.Skip(1).ToList();
+		ImmutableObjectPropertyCommand firstProperty = command.Properties[0];
+        IReadOnlyCollection<ImmutableObjectPropertyCommand> secondAndSubsequentProperties = command.Properties.Skip(1).ToList();
 
         MemoryStream stream = new();
 
@@ -42,7 +42,7 @@ public class ImmutableObjectGenerationService : IImmutableObjectGenerationServic
         writer.Write(command.ClassName);
         writer.Write("(");
 
-        static void writeParameter(StreamWriter writer, PropertyCommand property)
+        static void writeParameter(StreamWriter writer, ImmutableObjectPropertyCommand property)
         {
 			writer.Write(property.TypeName);
 			writer.Write(" ");
@@ -50,7 +50,7 @@ public class ImmutableObjectGenerationService : IImmutableObjectGenerationServic
 		}
 
         writeParameter(writer, firstProperty);
-		foreach (PropertyCommand property in secondAndSubsequentProperties)
+		foreach (ImmutableObjectPropertyCommand property in secondAndSubsequentProperties)
 		{
 			writer.Write(", ");
 			writeParameter(writer, property);

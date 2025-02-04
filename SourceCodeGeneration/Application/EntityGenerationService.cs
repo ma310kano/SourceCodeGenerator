@@ -233,11 +233,36 @@ public class EntityGenerationService : IEntityGenerationService
 				// Content
 				writer.WriteLine("        if (other is null) return false;");
 				writer.WriteLine();
-				writer.Write("        bool result = ");
-				writer.Write(firstProperty.PropertyName);
-				writer.Write(" == other.");
-				writer.Write(firstProperty.PropertyName);
-				writer.WriteLine(";");
+
+				{
+					writer.Write("        bool result = ");
+
+					PropertyTray firstPrimaryKey;
+					IEnumerable<PropertyTray> secondAfterPrimaryKeys;
+					{
+						IEnumerable<PropertyTray> primaryKeys = properties.Where(x => x.IsPrimaryKey);
+
+						firstPrimaryKey = primaryKeys.First();
+						secondAfterPrimaryKeys = primaryKeys.Skip(1);
+					}
+
+					static void writePrimaryKey(StreamWriter writer, PropertyTray property)
+					{
+						writer.Write(property.PropertyName);
+						writer.Write(" == other.");
+						writer.Write(property.PropertyName);
+					}
+
+					writePrimaryKey(writer, firstPrimaryKey);
+					foreach (PropertyTray primaryKey in secondAfterPrimaryKeys)
+					{
+						writer.Write(" && ");
+						writePrimaryKey(writer, primaryKey);
+					}
+
+					writer.WriteLine(";");
+				}
+
 				writer.WriteLine();
 				writer.WriteLine("        return result;");
 

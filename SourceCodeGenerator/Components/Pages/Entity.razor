@@ -27,6 +27,7 @@
 					<th>Property name</th>
 					<th>Property description</th>
 					<th>Type name</th>
+					<th>Primary key</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -37,6 +38,7 @@
 						<td><InputText class="form-control" @bind-Value="property.PropertyName" /></td>
 						<td><InputText class="form-control" @bind-Value="property.PropertyDescription" /></td>
 						<td><InputText class="form-control" @bind-Value="property.TypeName" /></td>
+						<td><InputCheckbox class="form-check-input" @bind-Value="property.IsPrimaryKey" /></td>
 						<td><button type="button" class="btn btn-danger" @onclick="() => _model.Properties.Remove(property)">Remove property</button></td>
 					</tr>
 				}
@@ -104,7 +106,7 @@
 		/// <summary>
 		/// プロパティのコレクションを取得します。
 		/// </summary>
-		public List<PropertyModel> Properties { get; } = new() { new PropertyModel() };
+		public List<PropertyModel> Properties { get; } = new() { new PropertyModel() { IsPrimaryKey = true } };
 
 		#endregion
 
@@ -118,15 +120,9 @@
 		{
 			EntityGenerationCommand command;
 			{
-				List<PropertyCommand> properties = [];
-				foreach (PropertyModel model in Properties)
-				{
-					PropertyCommand property = new(model.PropertyName, model.PropertyDescription, model.TypeName);
+				List<EntityPropertyCommand> properties = Properties.Select(x => x.CreateCommand()).ToList();
 
-					properties.Add(property);
-				}
-
-				command = new(ClassName, ClassDescription, NamespaceSequence, properties);
+				command = new EntityGenerationCommand(ClassName, ClassDescription, NamespaceSequence, properties);
 			}
 
 			return command;
@@ -157,6 +153,11 @@
 		/// </summary>
 		public string TypeName { get; set; } = string.Empty;
 
+		/// <summary>
+		/// 主キーかどうかを設定または取得します。
+		/// </summary>
+		public bool IsPrimaryKey { get; set; }
+
 		#endregion
 
 		#region Methods
@@ -165,9 +166,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		private PropertyCommand CreateCommand()
+		public EntityPropertyCommand CreateCommand()
 		{
-			PropertyCommand command = new(PropertyName, PropertyDescription, TypeName);
+			EntityPropertyCommand command = new(PropertyName, PropertyDescription, TypeName, IsPrimaryKey);
 
 			return command;
 		}

@@ -5,45 +5,35 @@ namespace SourceCodeGeneration.Application;
 /// <summary>
 /// プロパティトレイ
 /// </summary>
-internal class PropertyTray
+/// <param name="command">コマンド</param>
+internal class PropertyTray(EntityPropertyCommand command)
 {
-	#region Constructors
-
-	/// <summary>
-	/// プロパティトレイを初期化します。
-	/// </summary>
-	/// <param name="command">コマンド</param>
-	public PropertyTray(PropertyCommand command)
-	{
-		PropertyName = command.PropertyName;
-		PropertyDescription = command.PropertyDescription;
-		TypeName = command.TypeName;
-		ParameterName = command.PropertyName[0..1].ToLower() + command.PropertyName[1..];
-	}
-
-	#endregion
-
 	#region Properties
 
 	/// <summary>
 	/// プロパティ名を取得します。
 	/// </summary>
-	public string PropertyName { get; }
+	public string PropertyName { get; } = command.PropertyName;
 
 	/// <summary>
 	/// プロパティの説明を取得します。
 	/// </summary>
-	public string PropertyDescription { get; }
+	public string PropertyDescription { get; } = command.PropertyDescription;
 
 	/// <summary>
 	/// 型名を取得します。
 	/// </summary>
-	public string TypeName { get; }
+	public string TypeName { get; } = command.TypeName;
+
+	/// <summary>
+	/// 主キーかどうかを取得します。
+	/// </summary>
+	public bool IsPrimaryKey { get; } = command.IsPrimaryKey;
 
 	/// <summary>
 	/// パラメーター名を取得します。
 	/// </summary>
-	public string ParameterName { get; }
+	public string ParameterName { get; } = command.PropertyName[0..1].ToLower() + command.PropertyName[1..];
 
 	#endregion
 

@@ -118,15 +118,9 @@
 		{
 			ImmutableObjectGenerationCommand command;
 			{
-				List<PropertyCommand> properties = [];
-				foreach (PropertyModel model in Properties)
-				{
-					PropertyCommand property = new(model.PropertyName, model.PropertyDescription, model.TypeName);
+				List<ImmutableObjectPropertyCommand> properties = Properties.Select(x => x.CreateCommand()).ToList();
 
-					properties.Add(property);
-				}
-
-				command = new(ClassName, ClassDescription, NamespaceSequence, properties);
+				command = new ImmutableObjectGenerationCommand(ClassName, ClassDescription, NamespaceSequence, properties);
 			}
 
 			return command;
@@ -165,9 +159,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		private PropertyCommand CreateCommand()
+		public ImmutableObjectPropertyCommand CreateCommand()
 		{
-			PropertyCommand command = new(PropertyName, PropertyDescription, TypeName);
+			ImmutableObjectPropertyCommand command = new(PropertyName, PropertyDescription, TypeName);
 
 			return command;
 		}
