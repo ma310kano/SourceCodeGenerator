@@ -8,16 +8,16 @@
 
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
 	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div class="mb-3">
 		<label class="form-label" for="class-name">Class name</label>
 		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
 	</div>
 	<div class="mb-3">
 		<label class="form-label" for="class-description">Class description</label>
 		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
-	</div>
-	<div class="mb-3">
-		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
-		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
 	</div>
 	<div class="mb-3">
 		<label class="form-label" for="maximum-length">Maximum length</label>
@@ -67,6 +67,11 @@
 		#region Properties
 
 		/// <summary>
+		/// 名前空間シーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		/// <summary>
 		/// クラス名を設定または取得します。
 		/// </summary>
 		public string ClassName { get; set; } = string.Empty;
@@ -75,11 +80,6 @@
 		/// クラスの説明を設定または取得します。
 		/// </summary>
 		public string ClassDescription { get; set; } = string.Empty;
-
-		/// <summary>
-		/// 名前空間シーケンスを設定または取得します。
-		/// </summary>
-		public string NamespaceSequence { get; set; } = string.Empty;
 
 		/// <summary>
 		/// 最大長を取得します。
@@ -96,7 +96,7 @@
 		/// <returns>作成したコマンドを返します。</returns>
 		public ValueObjectMaximumLengthGenerationCommand CreateCommand()
 		{
-			ValueObjectMaximumLengthGenerationCommand command = new(ClassName, ClassDescription, NamespaceSequence, MaximumLength);
+			ValueObjectMaximumLengthGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, MaximumLength);
 
 			return command;
 		}

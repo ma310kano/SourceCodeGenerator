@@ -8,16 +8,16 @@
 
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
 	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div class="mb-3">
 		<label class="form-label" for="class-name">Class name</label>
 		<InputText class="form-control" id="class-name" @bind-Value="_model.ClassName" />
 	</div>
 	<div class="mb-3">
 		<label class="form-label" for="class-description">Class description</label>
 		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
-	</div>
-	<div class="mb-3">
-		<label class="form-label" for="namespace-sequence">Namespace sequence</label>
-		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
 	</div>
 	<div class="mb-3">
 		<button type="button" class="btn btn-primary" @onclick="() => _model.Properties.Add(new PropertyModel())">Add property</button>
@@ -87,6 +87,11 @@
 		#region Properties
 
 		/// <summary>
+		/// 名前空間シーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		/// <summary>
 		/// クラス名を設定または取得します。
 		/// </summary>
 		public string ClassName { get; set; } = string.Empty;
@@ -95,11 +100,6 @@
 		/// クラスの説明を設定または取得します。
 		/// </summary>
 		public string ClassDescription { get; set; } = string.Empty;
-
-		/// <summary>
-		/// 名前空間シーケンスを設定または取得します。
-		/// </summary>
-		public string NamespaceSequence { get; set; } = string.Empty;
 
 		/// <summary>
 		/// プロパティのコレクションを取得します。
@@ -120,7 +120,7 @@
 			{
 				List<ImmutableObjectPropertyCommand> properties = Properties.Select(x => x.CreateCommand()).ToList();
 
-				command = new ImmutableObjectGenerationCommand(ClassName, ClassDescription, NamespaceSequence, properties);
+				command = new ImmutableObjectGenerationCommand(NamespaceSequence, ClassName, ClassDescription, properties);
 			}
 
 			return command;
