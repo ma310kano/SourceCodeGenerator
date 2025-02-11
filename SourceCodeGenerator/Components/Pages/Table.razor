@@ -1,0 +1,262 @@
+﻿@page "/table"
+
+@using SourceCodeGeneration
+@using SourceCodeGeneration.Application
+@using SourceCodeGeneration.Application.Command
+
+@inject ITableGenerationService TableGenerationService
+
+<h1>Table</h1>
+
+<EditForm Model="_model" OnValidSubmit="SubmitAsync">
+	<h2>Database</h2>
+	<div class="mb-3">
+		<label class="form-label" for="singular-name">Singular name</label>
+		<InputText class="form-control" id="singular-name" @bind-Value="_model.SingularName" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="plural-name">Plural name</label>
+		<InputText class="form-control" id="plural-name" @bind-Value="_model.PluralName" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="description">Description</label>
+		<InputText class="form-control" id="description" @bind-Value="_model.Description" />
+	</div>
+	<div class="mb-3">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Column name</th>
+					<th>Type</th>
+					<th>Description</th>
+					<th>Not null</th>
+					<th>Primary key</th>
+					<th>Contains summary</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (TableColumnModel column in _model.Columns)
+				{
+					<tr>
+						<td><InputText class="form-control" @bind-Value="column.ColumnName" /></td>
+						<td>
+							<InputSelect class="form-select" @bind-Value="column.ColumnType">
+								<option value="@ColumnTypes.String">String</option>
+								<option value="@ColumnTypes.Integer">Integer</option>
+							</InputSelect>
+						</td>
+						<td><InputText class="form-control" @bind-Value="column.Description" /></td>
+						<td><InputCheckbox class="form-check-input" @bind-Value="column.IsNotNull" /></td>
+						<td><InputCheckbox class="form-check-input" @bind-Value="column.IsPrimaryKey" /></td>
+						<td><InputCheckbox class="form-check-input" @bind-Value="column.ContainsSummary" /></td>
+						<td><button type="button" class="btn btn-danger" @onclick="() => _model.Columns.Remove(column)">Remove column</button></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<button type="button" class="btn btn-primary" @onclick="() => _model.Columns.Add(new TableColumnModel())">Add column</button>
+	</div>
+
+	<h2>.NET</h2>
+	<div class="mb-3">
+		<label class="form-label" for="namespace-sequence">Namespace</label>
+		<InputText class="form-control" id="namespace-sequence" @bind-Value="_model.NamespaceSequence" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="connection-string-key">Connection string key</label>
+		<InputText class="form-control" id="connection-string-key" @bind-Value="_model.ConnectionStringKey" />
+	</div>
+	<div class="mb-3 right">
+		<button type="submit" class="btn btn-primary">Save</button>
+	</div>
+</EditForm>
+
+@code {
+	#region Fields
+
+	/// <summary>
+	/// モデル
+	/// </summary>
+	private readonly TableModel _model = new();
+
+	#endregion
+
+	#region Methods
+
+	/// <summary>
+	/// 送信します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task SubmitAsync()
+	{
+		TableGenerationCommand command = _model.CreateCommand();
+
+		// Database
+		{
+			GenerationResult result = await TableGenerationService.GenerateCreateTableStatementAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		// SummaryQueryService
+		{
+			GenerationResult result = await TableGenerationService.GenerateSummaryDataClassAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		{
+			GenerationResult result = await TableGenerationService.GenerateSummaryQueryServiceInterfaceAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		{
+			GenerationResult result = await TableGenerationService.GenerateSummaryQueryServiceClassAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		// QueryService
+		{
+			GenerationResult result = await TableGenerationService.GenerateDataClassAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		{
+			GenerationResult result = await TableGenerationService.GenerateQueryServiceInterfaceAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+
+		{
+			GenerationResult result = await TableGenerationService.GenerateQueryServiceClassAsync(command);
+
+			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+		}
+	}
+
+	#endregion
+
+	#region Nested types
+
+	/// <summary>
+	/// テーブルモデル
+	/// </summary>
+	private class TableModel
+	{
+		#region Properties
+
+		/// <summary>
+		/// 単数形の名前を設定または取得します。
+		/// </summary>
+		public string SingularName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 複数形の名前を設定または取得します。
+		/// </summary>
+		public string PluralName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 説明を設定または取得します。
+		/// </summary>
+		public string Description { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 列のコレクションを取得します。
+		/// </summary>
+		public List<TableColumnModel> Columns { get; } = new() { new TableColumnModel() { IsNotNull = true, IsPrimaryKey = true, ContainsSummary = true }, new TableColumnModel() };
+
+		/// <summary>
+		/// 名前空間のシーケンスを設定または取得します。
+		/// </summary>
+		public string NamespaceSequence { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 接続文字列のキーを設定または取得します。
+		/// </summary>
+		public string ConnectionStringKey { get; set; } = string.Empty;
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを生成します。
+		/// </summary>
+		/// <returns>生成したコマンドを返します。</returns>
+		public TableGenerationCommand CreateCommand()
+		{
+			TableGenerationCommand command;
+			{
+				IReadOnlyCollection<TableColumnGenerationCommand> columns = Columns.Select(x => x.CreateCommand()).ToList();
+
+				command = new TableGenerationCommand(SingularName, PluralName, Description, columns, NamespaceSequence, ConnectionStringKey);
+			}
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	/// <summary>
+	/// テーブル列モデル
+	/// </summary>
+	private class TableColumnModel
+	{
+		#region Properties
+
+		/// <summary>
+		/// 列名を設定または取得します。
+		/// </summary>
+		public string ColumnName { get; set; } = string.Empty;
+
+		/// <summary>
+		/// 列の型を設定または取得します。
+		/// </summary>
+		public ColumnTypes ColumnType { get; set; }
+
+		/// <summary>
+		/// 説明を設定または取得します。
+		/// </summary>
+		public string Description { get; set; } = string.Empty;
+
+		/// <summary>
+		/// NOT NULL かどうかを設定または取得します。
+		/// </summary>
+		public bool IsNotNull { get; set; }
+
+		/// <summary>
+		/// 主キーかどうかを設定または取得します。
+		/// </summary>
+		public bool IsPrimaryKey { get; set; }
+
+		/// <summary>
+		/// 概要に含めるかどうかを設定または取得します。
+		/// </summary>
+		public bool ContainsSummary { get; set; }
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// コマンドを生成します。
+		/// </summary>
+		/// <returns>生成したコマンドを返します。</returns>
+
+		public TableColumnGenerationCommand CreateCommand()
+		{
+			TableColumnGenerationCommand command = new(ColumnName, ColumnType, Description, IsNotNull, IsPrimaryKey, ContainsSummary);
+
+			return command;
+		}
+
+		#endregion
+	}
+
+	#endregion
+}

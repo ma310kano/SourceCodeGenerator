@@ -27,6 +27,7 @@ namespace SourceCodeGenerator
 			builder.Services.AddSingleton<IImmutableObjectGenerationService, ImmutableObjectGenerationService>();
 			builder.Services.AddSingleton<IEntityGenerationService, EntityGenerationService>();
 			builder.Services.AddSingleton<IValueObjectGenerationService, ValueObjectGenerationService>();
+			builder.Services.AddSingleton<ITableGenerationService, TableGenerationService>();
 
 			return builder.Build();
 		}
