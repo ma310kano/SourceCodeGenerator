@@ -10,16 +10,18 @@
 <h1>Table</h1>
 
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
-	<h2>Database</h2>
+	<h2>General</h2>
 	<div class="mb-3">
-		<label class="form-label" for="singular-name">Singular name</label>
+		<label class="form-label" for="singular-name">Element name (singular snake case)</label>
 		<div class="input-group">
 			<InputText class="form-control" id="singular-name" @bind-Value="_model.SingularName" />
-			<button type="button" class="btn btn-secondary" @onclick="PluralizeAsync">Pluralize</button>
+			<button type="button" class="btn btn-secondary" @onclick="PluralizeAsync">Input table name</button>
 		</div>
 	</div>
+
+	<h2>Database</h2>
 	<div class="mb-3">
-		<label class="form-label" for="plural-name">Plural name</label>
+		<label class="form-label" for="plural-name">Table name (plural snake case)</label>
 		<InputText class="form-control" id="plural-name" @bind-Value="_model.PluralName" />
 	</div>
 	<div class="mb-3">
@@ -30,7 +32,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Column name</th>
+					<th>Column name (snake case)</th>
 					<th>Type</th>
 					<th>Description</th>
 					<th>Not null</th>
