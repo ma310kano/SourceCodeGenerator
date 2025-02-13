@@ -80,6 +80,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine("    );");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -181,6 +182,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine(");");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -519,6 +521,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine("}");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -696,6 +699,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine("}");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -797,6 +801,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine(");");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -1047,6 +1052,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine("}");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{
@@ -1168,6 +1174,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine("}");
 
 		writer.Flush();
+		stream.Position = 0;
 
 		GenerationResult result;
 		{

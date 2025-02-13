@@ -73,6 +73,30 @@
 		<label class="form-label" for="connection-string-key">Connection string key</label>
 		<InputText class="form-control" id="connection-string-key" @bind-Value="_model.ConnectionStringKey" />
 	</div>
+
+	<h2>Destination Folder</h2>
+	<div class="mb-3">
+		<label class="form-label" for="sql-folder">SQL folder</label>
+		<div class="input-group">
+			<InputText class="form-control" id="sql-folder" @bind-Value="_model.SqlFolderPath" />
+			<button type="button" class="btn btn-secondary" @onclick="PickSqlFolderAsync">Select folder</button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="application-folder-main">Application folder (main)</label>
+		<div class="input-group">
+			<InputText class="form-control" id="application-folder-main" @bind-Value="_model.MainApplicationFolderPath" />
+			<button type="button" class="btn btn-secondary" @onclick="PickMainApplicationFolderAsync">Select folder</button>
+		</div>
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="application-folder-database">Application folder (database)</label>
+		<div class="input-group">
+			<InputText class="form-control" id="application-folder-database" @bind-Value="_model.DatabaseApplicationFolderPath" />
+			<button type="button" class="btn btn-secondary" @onclick="PickDatabaseApplicationFolderAsync">Select folder</button>
+		</div>
+	</div>
+
 	<div class="mb-3 right">
 		<button type="submit" class="btn btn-primary">Save</button>
 	</div>
@@ -100,6 +124,45 @@
 	}
 
 	/// <summary>
+	/// SQL のフォルダーを選択します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task PickSqlFolderAsync()
+	{
+		FolderPickerResult result = await FolderPicker.Default.PickAsync();
+
+		if (!result.IsSuccessful) return;
+
+		_model.SqlFolderPath = result.Folder.Path;
+	}
+
+	/// <summary>
+	/// メインのアプリケーションのフォルダーを選択します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task PickMainApplicationFolderAsync()
+	{
+		FolderPickerResult result = await FolderPicker.Default.PickAsync();
+
+		if (!result.IsSuccessful) return;
+
+		_model.MainApplicationFolderPath = result.Folder.Path;
+	}
+
+	/// <summary>
+	/// データベースのアプリケーションのフォルダーを選択します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task PickDatabaseApplicationFolderAsync()
+	{
+		FolderPickerResult result = await FolderPicker.Default.PickAsync();
+
+		if (!result.IsSuccessful) return;
+
+		_model.DatabaseApplicationFolderPath = result.Folder.Path;
+	}
+
+	/// <summary>
 	/// 送信します。
 	/// </summary>
 	/// <returns>非同期操作を返します。</returns>
@@ -107,49 +170,73 @@
 	{
 		TableGenerationCommand command = _model.CreateCommand();
 
-		// Database
+		// SQL
 		{
 			GenerationResult result = await TableGenerationService.GenerateCreateTableStatementAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(_model.SqlFolderPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
+
+		string dataDirPath = Path.Combine(_model.MainApplicationFolderPath, "Data");
+		if (!Directory.Exists(dataDirPath)) Directory.CreateDirectory(dataDirPath);
 
 		// SummaryQueryService
 		{
 			GenerationResult result = await TableGenerationService.GenerateSummaryDataClassAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(dataDirPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 
 		{
 			GenerationResult result = await TableGenerationService.GenerateSummaryQueryServiceInterfaceAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(_model.MainApplicationFolderPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 
 		{
 			GenerationResult result = await TableGenerationService.GenerateSummaryQueryServiceClassAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(_model.DatabaseApplicationFolderPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 
 		// QueryService
 		{
 			GenerationResult result = await TableGenerationService.GenerateDataClassAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(dataDirPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 
 		{
 			GenerationResult result = await TableGenerationService.GenerateQueryServiceInterfaceAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(_model.MainApplicationFolderPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 
 		{
 			GenerationResult result = await TableGenerationService.GenerateQueryServiceClassAsync(command);
 
-			await FileSaver.Default.SaveAsync(result.FileName, result.Stream);
+			string filePath = Path.Combine(_model.DatabaseApplicationFolderPath, result.FileName);
+
+			using FileStream fileStream = File.Create(filePath);
+			result.Stream.CopyTo(fileStream);
 		}
 	}
 
@@ -193,6 +280,22 @@
 		/// 接続文字列のキーを設定または取得します。
 		/// </summary>
 		public string ConnectionStringKey { get; set; } = string.Empty;
+
+		/// <summary>
+		/// SQL のフォルダーパスを設定または取得します。
+		/// </summary>
+		public string SqlFolderPath { get; set; } = string.Empty;
+
+		/// <summary>
+		/// メインのアプリケーションフォルダーのパスを設定または取得します。
+		/// </summary>
+		public string MainApplicationFolderPath { get; set; } = string.Empty;
+
+		/// <summary>
+		/// データベースのアプリケーションフォルダーのパスを設定または取得します。
+		/// </summary>
+
+		public string DatabaseApplicationFolderPath { get; set; } = string.Empty;
 
 		#endregion
 
