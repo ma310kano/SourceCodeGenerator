@@ -4,6 +4,7 @@
 @using SourceCodeGeneration.Application
 @using SourceCodeGeneration.Application.Command
 
+@inject IPluralizationService PluralizationService
 @inject ITableGenerationService TableGenerationService
 
 <h1>Table</h1>
@@ -12,7 +13,10 @@
 	<h2>Database</h2>
 	<div class="mb-3">
 		<label class="form-label" for="singular-name">Singular name</label>
-		<InputText class="form-control" id="singular-name" @bind-Value="_model.SingularName" />
+		<div class="input-group">
+			<InputText class="form-control" id="singular-name" @bind-Value="_model.SingularName" />
+			<button type="button" class="btn btn-secondary" @onclick="PluralizeAsync">Pluralize</button>
+		</div>
 	</div>
 	<div class="mb-3">
 		<label class="form-label" for="plural-name">Plural name</label>
@@ -83,6 +87,15 @@
 	#endregion
 
 	#region Methods
+
+	/// <summary>
+	/// 複数形に変換します。
+	/// </summary>
+	/// <returns>非同期操作を返します。</returns>
+	private async Task PluralizeAsync()
+	{
+		_model.PluralName = await PluralizationService.PluralizeAsync(_model.SingularName);
+	}
 
 	/// <summary>
 	/// 送信します。
