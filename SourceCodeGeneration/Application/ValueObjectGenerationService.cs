@@ -391,7 +391,7 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 		writer.WriteLine("/// </summary>");
 
 		// Class - Begin: Definition
-		writer.Write("public record class ");
+		writer.Write("public partial record class ");
 		writer.WriteLine(command.ClassName);
 		writer.WriteLine("{");
 
@@ -460,8 +460,6 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 			writer.WriteLine("    #region Methods");
 			writer.WriteLine();
 
-			writer.WriteLine();
-
 			// Validate method
 			{
 				// Documentation comment
@@ -476,14 +474,7 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 				writer.WriteLine("    {");
 
 				// Contents
-				writer.WriteLine("        bool result;");
-				writer.WriteLine("        {");
-				writer.Write("            const string pattern = \"");
-				writer.Write(command.Pattern);
-				writer.WriteLine("\";");
-				writer.WriteLine();
-				writer.WriteLine("            result = Regex.IsMatch(value, pattern);");
-				writer.WriteLine("        }");
+				writer.WriteLine("        bool result = GetRegex().IsMatch(value);");
 
 				writer.WriteLine();
 
@@ -506,6 +497,25 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 
 				// End: Definition
 				writer.WriteLine("    }");
+			}
+
+			writer.WriteLine();
+
+			// GetRegex method
+			{
+				// Documentation comment
+				writer.WriteLine("    /// <summary>");
+				writer.WriteLine("    /// 正規表現を取得します。");
+				writer.WriteLine("    /// </summary>");
+				writer.WriteLine("    /// <returns>正規表現を返します。</returns>");
+
+				// Argument
+				writer.Write("    [GeneratedRegex(@\"");
+				writer.Write(command.Pattern);
+				writer.WriteLine("\")]");
+
+				// Begin: Definition
+				writer.WriteLine("    private static partial Regex GetRegex();");
 			}
 
 			// End: Region derective
@@ -551,7 +561,7 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 		writer.WriteLine("/// </summary>");
 
 		// Class - Begin: Definition
-		writer.Write("public record class ");
+		writer.Write("public partial record class ");
 		writer.WriteLine(command.ClassName);
 		writer.WriteLine("{");
 
@@ -674,12 +684,7 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 				writer.WriteLine("    {");
 
 				// Contents
-				writer.WriteLine("        bool result;");
-				writer.WriteLine("        {");
-				writer.WriteLine("            const string pattern = \"^[0-9a-f]{8}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{4}\\\\-[0-9a-f]{12}$\";");
-				writer.WriteLine();
-				writer.WriteLine("            result = Regex.IsMatch(value, pattern);");
-				writer.WriteLine("        }");
+				writer.WriteLine("        bool result = GetRegex().IsMatch(value);");
 
 				writer.WriteLine();
 
@@ -700,6 +705,23 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 
 				// End: Definition
 				writer.WriteLine("    }");
+			}
+
+			writer.WriteLine();
+
+			// GetRegex method
+			{
+				// Documentation comment
+				writer.WriteLine("    /// <summary>");
+				writer.WriteLine("    /// 正規表現を取得します。");
+				writer.WriteLine("    /// </summary>");
+				writer.WriteLine("    /// <returns>正規表現を返します。</returns>");
+
+				// Argument
+				writer.WriteLine("    [GeneratedRegex(@\"^[0-9a-f]{8}\\-[0-9a-f]{4}\\-[0-9a-f]{4}\\-[0-9a-f]{4}\\-[0-9a-f]{12}$\")]");
+
+				// Begin: Definition
+				writer.WriteLine("    private static partial Regex GetRegex();");
 			}
 
 			// End: Region derective
