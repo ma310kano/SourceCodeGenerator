@@ -257,6 +257,90 @@ public class ValueObjectGenerationService : IValueObjectGenerationService
 
 			writer.WriteLine();
 
+			// Operator
+			if (command.HasPlusOperator || command.HasMinusOperator)
+			{
+				// Begin: Region derective
+				writer.WriteLine("    #region Operators");
+				writer.WriteLine();
+
+				// + operator
+				if (command.HasPlusOperator)
+				{
+					// Documentation comment
+					writer.WriteLine("    /// <summary>");
+					writer.WriteLine("    /// 左側のオペランドに右側のオペランドを加算します。");
+					writer.WriteLine("    /// </summary>");
+					writer.WriteLine("    /// <param name=\"lhs\">左側のオペランド</param>");
+					writer.WriteLine("    /// <param name=\"rhs\">右側のオペランド</param>");
+					writer.Write("    /// <returns>加算した");
+					writer.Write(command.ClassDescription);
+					writer.WriteLine("を返します。</returns>");
+
+					// Begin: Definition
+					writer.Write("    public static ");
+					writer.Write(command.ClassName);
+					writer.Write(" operator +(");
+					writer.Write(command.ClassName);
+					writer.Write(" lhs, ");
+					writer.Write(command.ClassName);
+					writer.WriteLine(" rhs)");
+					writer.WriteLine("    {");
+
+					// Contents
+					writer.Write("        ");
+					writer.Write(command.ClassName);
+					writer.WriteLine(" result = new(lhs.Value + rhs.Value);");
+					writer.WriteLine();
+					writer.WriteLine("        return result;");
+
+					// End: Definition
+					writer.WriteLine("    }");
+
+					writer.WriteLine();
+				}
+
+				// - operator
+				if (command.HasMinusOperator)
+				{
+					// Documentation comment
+					writer.WriteLine("    /// <summary>");
+					writer.WriteLine("    /// 左側のオペランドから右側のオペランドを減算します。");
+					writer.WriteLine("    /// </summary>");
+					writer.WriteLine("    /// <param name=\"lhs\">左側のオペランド</param>");
+					writer.WriteLine("    /// <param name=\"rhs\">右側のオペランド</param>");
+					writer.Write("    /// <returns>減算した");
+					writer.Write(command.ClassDescription);
+					writer.WriteLine("を返します。</returns>");
+
+					// Begin: Definition
+					writer.Write("    public static ");
+					writer.Write(command.ClassName);
+					writer.Write(" operator -(");
+					writer.Write(command.ClassName);
+					writer.Write(" lhs, ");
+					writer.Write(command.ClassName);
+					writer.WriteLine(" rhs)");
+					writer.WriteLine("    {");
+
+					// Contents
+					writer.Write("        ");
+					writer.Write(command.ClassName);
+					writer.WriteLine(" result = new(lhs.Value - rhs.Value);");
+					writer.WriteLine();
+					writer.WriteLine("        return result;");
+
+					// End: Definition
+					writer.WriteLine("    }");
+
+					writer.WriteLine();
+				}
+
+				writer.WriteLine("    #endregion");
+
+				writer.WriteLine();
+			}
+
 			// Method
 			{
 				// Begin: Region derective

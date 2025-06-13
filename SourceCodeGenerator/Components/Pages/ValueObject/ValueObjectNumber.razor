@@ -19,6 +19,14 @@
 		<InputText class="form-control" id="class-description" @bind-Value="_model.ClassDescription" />
 	</div>
 	<div class="mb-3">
+		<InputCheckbox class="form-check-input" id="plus-operator" @bind-Value="_model.HasPlusOperator" />
+		<label class="form-label" for="plus-operator">+ Operator</label>
+	</div>
+	<div class="mb-3">
+		<InputCheckbox class="form-check-input" id="minus-operator" @bind-Value="_model.HasMinusOperator" />
+		<label class="form-label" for="minus-operator">- Operator</label>
+	</div>
+	<div class="mb-3">
 		<InputCheckbox class="form-check-input" id="minimum-number" @bind-Value="_model.HasMinimumNumber" />
 		<label class="form-label" for="minimum-number">Minumum number</label>
 		<InputNumber class="form-control" disabled="@(_model.HasMinimumNumber ? null : "disabled")" @bind-Value="_model.MinimumNumber" />
@@ -87,6 +95,16 @@
 		public string ClassDescription { get; set; } = string.Empty;
 
 		/// <summary>
+		/// + オペレーターを持つかどうかを設定または取得します。
+		/// </summary>
+		public bool HasPlusOperator { get; set; } = true;
+
+		/// <summary>
+		/// - オペレーターを持つかどうかを設定または取得します。
+		/// </summary>
+		public bool HasMinusOperator { get; set; } = true;
+
+		/// <summary>
 		/// 最小数を持つかどうかを設定または取得します。
 		/// </summary>
 		public bool HasMinimumNumber { get; set; } = true;
@@ -116,7 +134,7 @@
 		/// <returns>作成したコマンドを返します。</returns>
 		public ValueObjectNumberGenerationCommand CreateCommand()
 		{
-			ValueObjectNumberGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, HasMinimumNumber, MinimumNumber, HasMaximumNumber, MaximumNumber);
+			ValueObjectNumberGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, HasPlusOperator, HasMinusOperator, HasMinimumNumber, MinimumNumber, HasMaximumNumber, MaximumNumber);
 
 			return command;
 		}
