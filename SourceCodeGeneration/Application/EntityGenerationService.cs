@@ -215,6 +215,8 @@ public class EntityGenerationService : IEntityGenerationService
 				writer.WriteLine("    }");
 			}
 
+			writer.WriteLine();
+
 			// IEquatable<T>.Equals method
 			{
 				// Documentation comment
