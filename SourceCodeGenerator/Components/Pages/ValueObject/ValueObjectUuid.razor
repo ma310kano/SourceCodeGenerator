@@ -1,9 +1,9 @@
 ﻿@page "/value-object/uuid"
 
-@using SourceCodeGeneration.Application
-@using SourceCodeGeneration.Application.Command
+@using SourceCodeGeneration.Application.ValueObject
+@using SourceCodeGeneration.Application.ValueObject.Command
 
-@inject IValueObjectGenerationService ValueObjectGenerationService
+@inject IUuidGenerationService UuidGenerationService
 
 <h1>Value object (UUID)</h1>
 
@@ -43,9 +43,9 @@
 	/// <returns>非同期操作を返します。</returns>
 	private async Task SaveFileAsync()
 	{
-		ValueObjectUuidGenerationCommand command = _model.CreateCommand();
+		UuidGenerationCommand command = _model.CreateCommand();
 
-		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+		using Stream stream = await UuidGenerationService.GenerateAsync(command);
 
 		string fileName = command.ClassName + ".cs";
 
@@ -86,9 +86,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		public ValueObjectUuidGenerationCommand CreateCommand()
+		public UuidGenerationCommand CreateCommand()
 		{
-			ValueObjectUuidGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription);
+			UuidGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription);
 
 			return command;
 		}

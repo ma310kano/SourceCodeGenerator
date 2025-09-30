@@ -1,8 +1,8 @@
 ﻿@page "/value-object/maximum-length"
 
-@using SourceCodeGeneration.Application
-@using SourceCodeGeneration.Application.Command
-@inject IValueObjectGenerationService ValueObjectGenerationService
+@using SourceCodeGeneration.Application.ValueObject
+@using SourceCodeGeneration.Application.ValueObject.Command
+@inject IMaximumLengthGenerationService MaximumLengthGenerationService
 
 <h1>Value object (string)</h1>
 
@@ -46,9 +46,9 @@
 	/// <returns>非同期操作を返します。</returns>
 	private async Task SubmitAsync()
 	{
-		ValueObjectMaximumLengthGenerationCommand command = _model.CreateCommand();
+		MaximumLengthGenerationCommand command = _model.CreateCommand();
 
-		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+		using Stream stream = await MaximumLengthGenerationService.GenerateAsync(command);
 
 		string fileName = command.ClassName + ".cs";
 
@@ -94,9 +94,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		public ValueObjectMaximumLengthGenerationCommand CreateCommand()
+		public MaximumLengthGenerationCommand CreateCommand()
 		{
-			ValueObjectMaximumLengthGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, MaximumLength);
+			MaximumLengthGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, MaximumLength);
 
 			return command;
 		}

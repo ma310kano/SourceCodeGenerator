@@ -1,7 +1,7 @@
 ﻿@page "/value-object/number"
-@using SourceCodeGeneration.Application
-@using SourceCodeGeneration.Application.Command
-@inject IValueObjectGenerationService ValueObjectGenerationService
+@using SourceCodeGeneration.Application.ValueObject
+@using SourceCodeGeneration.Application.ValueObject.Command
+@inject INumberGenerationService NumberGenerationService
 
 <h1>Value object (number)</h1>
 
@@ -59,9 +59,9 @@
 	/// <returns>非同期操作を返します。</returns>
 	private async Task SaveFileAsync()
 	{
-		ValueObjectNumberGenerationCommand command = _model.CreateCommand();
+		NumberGenerationCommand command = _model.CreateCommand();
 
-		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+		using Stream stream = await NumberGenerationService.GenerateAsync(command);
 
 		string fileName = command.ClassName + ".cs";
 
@@ -132,9 +132,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		public ValueObjectNumberGenerationCommand CreateCommand()
+		public NumberGenerationCommand CreateCommand()
 		{
-			ValueObjectNumberGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, HasPlusOperator, HasMinusOperator, HasMinimumNumber, MinimumNumber, HasMaximumNumber, MaximumNumber);
+			NumberGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, HasPlusOperator, HasMinusOperator, HasMinimumNumber, MinimumNumber, HasMaximumNumber, MaximumNumber);
 
 			return command;
 		}

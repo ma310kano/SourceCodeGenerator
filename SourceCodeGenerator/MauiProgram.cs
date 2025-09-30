@@ -27,7 +27,10 @@ namespace SourceCodeGenerator
 			builder.Services.AddSingleton<IPluralizationService, PluralizationService>();
 			builder.Services.AddSingleton<IImmutableObjectGenerationService, ImmutableObjectGenerationService>();
 			builder.Services.AddSingleton<IEntityGenerationService, EntityGenerationService>();
-			builder.Services.AddSingleton<IValueObjectGenerationService, ValueObjectGenerationService>();
+			builder.Services.AddSingleton<SourceCodeGeneration.Application.ValueObject.IMaximumLengthGenerationService, SourceCodeGeneration.Application.ValueObject.MaximumLengthGenerationService>();
+			builder.Services.AddSingleton<SourceCodeGeneration.Application.ValueObject.INumberGenerationService, SourceCodeGeneration.Application.ValueObject.NumberGenerationService>();
+			builder.Services.AddSingleton<SourceCodeGeneration.Application.ValueObject.IStringPatternGenerationService, SourceCodeGeneration.Application.ValueObject.StringPatternGenerationService>();
+			builder.Services.AddSingleton<SourceCodeGeneration.Application.ValueObject.IUuidGenerationService, SourceCodeGeneration.Application.ValueObject.UuidGenerationService>();
 			builder.Services.AddSingleton<ITableGenerationService, TableGenerationService>();
 
 			return builder.Build();

@@ -1,9 +1,9 @@
 ﻿@page "/value-object/string/pattern"
 
-@using SourceCodeGeneration.Application
-@using SourceCodeGeneration.Application.Command
+@using SourceCodeGeneration.Application.ValueObject
+@using SourceCodeGeneration.Application.ValueObject.Command
 
-@inject IValueObjectGenerationService ValueObjectGenerationService
+@inject IStringPatternGenerationService StringPatternGenerationService
 
 <h1>Value object (pattern)</h1>
 
@@ -51,9 +51,9 @@
 	/// <returns>非同期操作を返します。</returns>
 	private async Task SaveFileAsync()
 	{
-		ValueObjectStringPatternGenerationCommand command = _model.CreateCommand();
+		StringPatternGenerationCommand command = _model.CreateCommand();
 
-		using Stream stream = await ValueObjectGenerationService.GenerateValueObjectAsync(command);
+		using Stream stream = await StringPatternGenerationService.GenerateAsync(command);
 
 		string fileName = command.ClassName + ".cs";
 
@@ -104,9 +104,9 @@
 		/// コマンドを作成します。
 		/// </summary>
 		/// <returns>作成したコマンドを返します。</returns>
-		public ValueObjectStringPatternGenerationCommand CreateCommand()
+		public StringPatternGenerationCommand CreateCommand()
 		{
-			ValueObjectStringPatternGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, Pattern, PatternDescription);
+			StringPatternGenerationCommand command = new(NamespaceSequence, ClassName, ClassDescription, Pattern, PatternDescription);
 
 			return command;
 		}
