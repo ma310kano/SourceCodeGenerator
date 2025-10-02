@@ -47,7 +47,16 @@ public class NumberGenerationService : INumberGenerationService
 		{
 			// Class - Begin: Definition
 			writer.Write("public record class ");
-			writer.WriteLine(command.ClassName);
+			writer.Write(command.ClassName);
+
+			if (command.HasComparable)
+			{
+				writer.Write(" : IComparable<");
+				writer.Write(command.ClassName);
+				writer.Write(">");
+			}
+
+			writer.WriteLine();
 			writer.WriteLine("{");
 
 			// Constructor
@@ -198,6 +207,35 @@ public class NumberGenerationService : INumberGenerationService
 				// Begin: Region derective
 				writer.WriteLine("    #region Methods");
 				writer.WriteLine();
+
+				// CompareTo method
+				if (command.HasComparable)
+				{
+					// Documentation comment
+					writer.WriteLine("    /// <summary>");
+					writer.WriteLine("    /// 現在のインスタンスを同じ型の別のオブジェクトと比較し、現在のインスタンスの並べ替え順序での位置が、比較対象のオブジェクトと比べて前か、後か、または同じかを示す整数を返します。");
+					writer.WriteLine("    /// </summary>");
+					writer.WriteLine("    /// <param name=\"other\">このインスタンスと比較するオブジェクト。</param>");
+					writer.WriteLine("    /// <returns>比較対象オブジェクトの相対順序を示す値。0 より小さい値であれば前、ゼロであれば同じ、0 より大きい値であれば後です。</returns>");
+
+					// Begin: Definition
+					writer.Write("    public int CompareTo(");
+					writer.Write(command.ClassName);
+					writer.WriteLine("? other)");
+					writer.WriteLine("    {");
+
+					// Contents
+					writer.WriteLine("        if (other is null) return 1;");
+					writer.WriteLine();
+					writer.WriteLine("        int result = Value.CompareTo(other.Value);");
+					writer.WriteLine();
+					writer.WriteLine("        return result;");
+
+					// End: Definition
+					writer.WriteLine("    }");
+
+					writer.WriteLine();
+				}
 
 				// Validate method
 				{
