@@ -61,10 +61,6 @@ public class NumberGenerationService : INumberGenerationService
 
 			// Constructor
 			{
-				// Begin: Region derective
-				writer.WriteLine("    #region Constructors");
-				writer.WriteLine();
-
 				// Documentation comment
 				writer.WriteLine("    /// <summary>");
 				writer.Write("    /// ");
@@ -89,20 +85,12 @@ public class NumberGenerationService : INumberGenerationService
 
 				// End: Definition
 				writer.WriteLine("    }");
-
-				// End: Region derective
-				writer.WriteLine();
-				writer.WriteLine("    #endregion");
 			}
 
 			writer.WriteLine();
 
 			// Property
 			{
-				// Begin: Region derective
-				writer.WriteLine("    #region Properties");
-				writer.WriteLine();
-
 				// Documentation comment
 				writer.WriteLine("    /// <summary>");
 				writer.WriteLine("    /// 値を取得します。");
@@ -110,10 +98,6 @@ public class NumberGenerationService : INumberGenerationService
 
 				// Definition
 				writer.WriteLine("    public int Value { get; }");
-
-				// End: Region derective
-				writer.WriteLine();
-				writer.WriteLine("    #endregion");
 			}
 
 			writer.WriteLine();
@@ -121,10 +105,6 @@ public class NumberGenerationService : INumberGenerationService
 			// Operator
 			if (command.HasPlusOperator || command.HasMinusOperator)
 			{
-				// Begin: Region derective
-				writer.WriteLine("    #region Operators");
-				writer.WriteLine();
-
 				// + operator
 				if (command.HasPlusOperator)
 				{
@@ -196,18 +176,10 @@ public class NumberGenerationService : INumberGenerationService
 
 					writer.WriteLine();
 				}
-
-				writer.WriteLine("    #endregion");
-
-				writer.WriteLine();
 			}
 
 			// Method
 			{
-				// Begin: Region derective
-				writer.WriteLine("    #region Methods");
-				writer.WriteLine();
-
 				// CompareTo method
 				if (command.HasComparable)
 				{
@@ -320,10 +292,6 @@ public class NumberGenerationService : INumberGenerationService
 					// End: Definition
 					writer.WriteLine("    }");
 				}
-
-				// End: Region derective
-				writer.WriteLine();
-				writer.WriteLine("    #endregion");
 			}
 
 			// Class - End: Definition

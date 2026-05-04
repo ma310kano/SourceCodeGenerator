@@ -73,10 +73,6 @@ public class EntityGenerationService : IEntityGenerationService
 
 		// Property
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Properties");
-			writer.WriteLine();
-
 			static void writeProperty(StreamWriter writer, PropertyTray property)
 			{
 				// Documentation comment
@@ -102,20 +98,12 @@ public class EntityGenerationService : IEntityGenerationService
 				writer.WriteLine();
 				writeProperty(writer, property);
 			}
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		writer.WriteLine();
 
 		// Operator
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Operators");
-			writer.WriteLine();
-
 			// == operator
 			{
 				// Documentation comment
@@ -173,20 +161,12 @@ public class EntityGenerationService : IEntityGenerationService
 				// End: Definition
 				writer.WriteLine("    }");
 			}
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		writer.WriteLine();
 
 		// Method
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Methods");
-			writer.WriteLine();
-
 			// object.Equals method
 			{
 				// Documentation comment
@@ -336,10 +316,6 @@ public class EntityGenerationService : IEntityGenerationService
 				writer.WriteLine("        return str;");
 				writer.WriteLine("    }");
 			}
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		// Class - End: Definition

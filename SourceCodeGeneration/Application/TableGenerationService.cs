@@ -280,10 +280,6 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine(interfaceName);
 		writer.WriteLine("{");
 
-		// Fields: Begin
-		writer.WriteLine("    #region Fields");
-		writer.WriteLine();
-
 		// Field: _connectionString
 		writer.WriteLine("    /// <summary>");
 		writer.WriteLine("    /// 接続文字列");
@@ -292,15 +288,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.Write(command.ConnectionStringKey);
 		writer.WriteLine("\") ?? throw new InvalidOperationException(\"接続文字列が取得できません。\");");
 
-		// Fields: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
-
 		// Blank line: Fields - Methods
-		writer.WriteLine();
-
-		// Methods: Begin
-		writer.WriteLine("    #region Methods");
 		writer.WriteLine();
 
 		void WriteDocumentationCommentParameter(Column[] keyColumns)
@@ -514,10 +502,6 @@ public class TableGenerationService : ITableGenerationService
 			writer.WriteLine("    }");
 		}
 
-		// Methods: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
-
 		writer.WriteLine("}");
 
 		writer.Flush();
@@ -596,10 +580,6 @@ public class TableGenerationService : ITableGenerationService
 		writer.Write("public interface ");
 		writer.WriteLine(interfaceName);
 		writer.WriteLine("{");
-
-		// Methods: Region: Begin
-		writer.WriteLine("    #region Methods");
-		writer.WriteLine();
 
 		void WriteDocumentationCommentParameter(Column[] keyColumns)
 		{
@@ -691,10 +671,6 @@ public class TableGenerationService : ITableGenerationService
 
 			writer.WriteLine(");");
 		}
-
-		// Methods: Region: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
 
 		writer.WriteLine("}");
 
@@ -901,10 +877,6 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine(interfaceName);
 		writer.WriteLine("{");
 
-		// Fields: Begin
-		writer.WriteLine("    #region Fields");
-		writer.WriteLine();
-
 		// Field: _connectionString
 		writer.WriteLine("    /// <summary>");
 		writer.WriteLine("    /// 接続文字列");
@@ -913,15 +885,7 @@ public class TableGenerationService : ITableGenerationService
 		writer.Write(command.ConnectionStringKey);
 		writer.WriteLine("\") ?? throw new InvalidOperationException(\"接続文字列が取得できません。\");");
 
-		// Fields: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
-
 		// Blank line: Fields - Methods
-		writer.WriteLine();
-
-		// Methods: Begin
-		writer.WriteLine("    #region Methods");
 		writer.WriteLine();
 
 		// Methods: Query method
@@ -1045,10 +1009,6 @@ public class TableGenerationService : ITableGenerationService
 			writer.WriteLine("    }");
 		}
 
-		// Methods: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
-
 		writer.WriteLine("}");
 
 		writer.Flush();
@@ -1124,10 +1084,6 @@ public class TableGenerationService : ITableGenerationService
 		writer.WriteLine(interfaceName);
 		writer.WriteLine("{");
 
-		// Methods: Region: Begin
-		writer.WriteLine("    #region Methods");
-		writer.WriteLine();
-
 		// Methods: Query method
 		{
 			// Documentation comment
@@ -1166,10 +1122,6 @@ public class TableGenerationService : ITableGenerationService
 			writer.Write(dataClassName);
 			writer.WriteLine(">> QueryAsync();");
 		}
-
-		// Methods: Region: End
-		writer.WriteLine();
-		writer.WriteLine("    #endregion");
 
 		writer.WriteLine("}");
 

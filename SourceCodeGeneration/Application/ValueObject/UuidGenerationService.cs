@@ -46,10 +46,6 @@ public class UuidGenerationService : IUuidGenerationService
 
 		// Constructor
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Constructors");
-			writer.WriteLine();
-
 			// Documentation comment
 			writer.WriteLine("    /// <summary>");
 			writer.Write("    /// ");
@@ -74,20 +70,12 @@ public class UuidGenerationService : IUuidGenerationService
 
 			// End: Definition
 			writer.WriteLine("    }");
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		writer.WriteLine();
 
 		// Property
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Properties");
-			writer.WriteLine();
-
 			// Documentation comment
 			writer.WriteLine("    /// <summary>");
 			writer.WriteLine("    /// 値を取得します。");
@@ -95,20 +83,12 @@ public class UuidGenerationService : IUuidGenerationService
 
 			// Definition
 			writer.WriteLine("    public string Value { get; }");
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		writer.WriteLine();
 
 		// Method
 		{
-			// Begin: Region derective
-			writer.WriteLine("    #region Methods");
-			writer.WriteLine();
-
 			// Create method
 			{
 				// Documentation comment
@@ -202,10 +182,6 @@ public class UuidGenerationService : IUuidGenerationService
 				// Begin: Definition
 				writer.WriteLine("    private static partial Regex GetRegex();");
 			}
-
-			// End: Region derective
-			writer.WriteLine();
-			writer.WriteLine("    #endregion");
 		}
 
 		// Class - End: Definition
