@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
 using SourceCodeGeneration.Application;
+using SourceCodeGeneration.Application.Entity;
 
 namespace SourceCodeGenerator
 {

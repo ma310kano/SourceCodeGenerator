@@ -1,6 +1,6 @@
-﻿using SourceCodeGeneration.Application.Command;
+﻿using SourceCodeGeneration.Application.Entity.Command;
 
-namespace SourceCodeGeneration.Application;
+namespace SourceCodeGeneration.Application.Entity;
 
 /// <summary>
 /// エンティティ生成サービス

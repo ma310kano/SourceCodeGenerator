@@ -1,4 +1,4 @@
-﻿namespace SourceCodeGeneration.Application.Command;
+﻿namespace SourceCodeGeneration.Application.Entity.Command;
 
 /// <summary>
 /// エンティティの生成コマンド
