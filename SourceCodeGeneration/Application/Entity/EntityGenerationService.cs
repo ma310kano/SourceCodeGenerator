@@ -38,35 +38,11 @@ public class EntityGenerationService : IEntityGenerationService
 		writer.WriteLine(command.ClassDescription);
 		writer.WriteLine("/// </summary>");
 
-		foreach (var property in properties)
-		{
-			writer.Write("/// <param name=\"");
-			writer.Write(property.ParameterName);
-			writer.Write("\">");
-			writer.Write(property.PropertyDescription);
-			writer.WriteLine("</param>");
-		}
-
 		// Class - Begin: Definition
 		writer.Write("public class ");
 		writer.Write(command.ClassName);
-		writer.Write("(");
-
-		static void writeParameter(StreamWriter writer, PropertyTray property)
-		{
-			writer.Write(property.TypeName);
-			writer.Write(" ");
-			writer.Write(property.ParameterName);
-		}
-
-		writeParameter(writer, firstProperty);
-		foreach (var property in secondAndSubsequentProperties)
-		{
-			writer.Write(", ");
-			writeParameter(writer, property);
-		}
-
-		writer.Write(") : IEquatable<");
+		
+		writer.Write(" : IEquatable<");
 		writer.Write(command.ClassName);
 		writer.WriteLine(">");
 		writer.WriteLine("{");
@@ -83,13 +59,11 @@ public class EntityGenerationService : IEntityGenerationService
 				writer.WriteLine("    /// </summary>");
 
 				// Begin: Definition
-				writer.Write("    public ");
+				writer.Write("    public required ");
 				writer.Write(property.TypeName);
 				writer.Write(" ");
 				writer.Write(property.PropertyName);
-				writer.Write(" { get; } = ");
-				writer.Write(property.ParameterName);
-				writer.WriteLine(";");
+				writer.WriteLine(" { get; init; }");
 			}
 
 			writeProperty(writer, firstProperty);
