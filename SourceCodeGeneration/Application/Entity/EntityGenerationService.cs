@@ -39,7 +39,7 @@ public class EntityGenerationService : IEntityGenerationService
 		writer.WriteLine("/// </summary>");
 
 		// Class - Begin: Definition
-		writer.Write("public class ");
+		writer.Write("public sealed class ");
 		writer.Write(command.ClassName);
 		
 		writer.Write(" : IEquatable<");
